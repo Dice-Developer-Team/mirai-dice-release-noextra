@@ -1,0 +1,132 @@
+{
+    "ret": 1,
+    "apiver": 9,
+    "name": "DiceDriver",
+    "version": "0.2.1",
+    "version_id": 3,
+    "author": "w4123溯洄 & Shiki",
+    "description": "使用Dice驱动器在酷Q上运行Dice!",
+  "event": [
+    {
+      "id": 1,
+      "type": 21,
+      "name": "私聊消息处理",
+      "function": "eventPrivateMsg",
+      "priority": 30000
+    },
+    {
+      "id": 2,
+      "type": 2,
+      "name": "群消息处理",
+      "function": "eventGroupMsg",
+      "priority": 20000
+    },
+    {
+      "id": 3,
+      "type": 4,
+      "name": "多人聊天消息处理",
+      "function": "eventDiscussMsg",
+      "priority": 30000
+    },
+    {
+      "id": 13,
+      "type": 1001,
+      "name": "启动事件",
+      "function": "eventStartUp",
+      "priority": 30000
+    },
+    {
+      "id": 4,
+      "type": 1003,
+      "name": "启用事件",
+      "function": "eventEnable",
+      "priority": 30000
+    },
+    {
+      "id": 5,
+      "type": 1002,
+      "name": "退出事件",
+      "function": "eventExit",
+      "priority": 30000
+    },
+    {
+      "id": 6,
+      "type": 1004,
+      "name": "禁用事件",
+      "function": "eventDisable",
+      "priority": 30000
+    },
+    {
+      "id": 7,
+      "type": 103,
+      "name": "群成员添加事件",
+      "function": "eventGroupMemberIncrease",
+      "priority": 30000
+    },
+    {
+      "id": 8,
+      "type": 102,
+      "name": "群成员减少事件",
+      "function": "eventGroupMemberDecrease",
+      "priority": 30000
+    },
+    {
+      "id": 12,
+      "type": 104,
+      "name": "群成员禁言事件",
+      "function": "eventGroupBan",
+      "priority": 30000
+    },
+    {
+      "id": 9,
+      "type": 302,
+      "name": "群添加请求事件",
+      "function": "eventGroupInvited",
+      "priority": 30000
+    },
+    {
+      "id": 10,
+      "type": 301,
+      "name": "好友添加请求事件",
+      "function": "eventAddFriend",
+      "priority": 30000
+    },
+    {
+      "id": 11,
+      "type": 201,
+      "name": "好友添加事件",
+      "function": "eventFriendAdd",
+      "priority": 30000
+    }
+  ],
+    "menu": [
+        {
+            "name": "综合管理",
+            "function": "eventGUI"
+        }
+    ],
+    "status": [
+    ],
+    "auth": [
+        101,
+        103,
+        106,
+        110,
+        120,
+        121,
+        122,
+        123,
+        126,
+        127,
+        128,
+        130,
+        131,
+        132,
+        140,
+        150,
+        151,
+        160,
+        161,
+        162
+    ]
+}
