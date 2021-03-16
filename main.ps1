@@ -91,6 +91,10 @@ if (($args[0] -eq "--update") -or ($args[0] -eq "-u"))
 	& "$GIT" fetch --depth=1
 	& "$GIT" reset --hard origin/master
 }
+if (($args[0] -eq "--revert") -or ($args[0] -eq "-r"))
+{
+	& "$GIT" reset --hard HEAD@{1}
+}
 elseif (($args[0] -eq "--autoslider") -or ($args[0] -eq "-a")) 
 {
 	copy -Path "$PSScriptRoot\slider\mirai-login-solver-selenium*" "$PSScriptRoot\plugins\"
