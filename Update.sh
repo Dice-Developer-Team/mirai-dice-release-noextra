@@ -1,3 +1,4 @@
-#!/bin/bash
+#/bin/bash
 cd $(dirname $0)
-git pull --ff-only --depth=1
+git fetch --depth=1
+git reset --hard origin/head
