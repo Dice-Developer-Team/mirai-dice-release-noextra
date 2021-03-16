@@ -1,4 +1,4 @@
 #/bin/bash
 cd $(dirname $0)
 git fetch --depth=1
-git reset --hard origin/head
+git reset --hard origin/master

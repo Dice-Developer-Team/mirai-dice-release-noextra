@@ -89,7 +89,7 @@ Write-Host "Git: $GIT" -ForegroundColor green
 if (($args[0] -eq "--update") -or ($args[0] -eq "-u"))
 {
 	& "$GIT" fetch --depth=1
-	& "$GIT" reset --hard origin/head
+	& "$GIT" reset --hard origin/master
 }
 elseif (($args[0] -eq "--autoslider") -or ($args[0] -eq "-a")) 
 {
