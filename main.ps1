@@ -55,10 +55,7 @@ Write-Host "ºÏ≤‚Git"
 Try 
 {
 	$Command = Get-Command -Name git -ErrorAction Stop
-	if (($Command | Select-Object -ExpandProperty Version).Major -ge 11)
-	{
-		$GIT = "git"
-	}
+	$GIT = "git"
 }
 Catch {}
 
