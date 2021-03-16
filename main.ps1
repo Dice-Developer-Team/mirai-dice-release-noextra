@@ -88,8 +88,7 @@ Write-Host "Git: $GIT" -ForegroundColor green
 
 if (($args[0] -eq "--update") -or ($args[0] -eq "-u"))
 {
-	& "$GIT" config pull.rebase false
-	& "$GIT" pull
+	& "$GIT" pull --ff-only --depth=1
 }
 elseif (($args[0] -eq "--autoslider") -or ($args[0] -eq "-a")) 
 {
