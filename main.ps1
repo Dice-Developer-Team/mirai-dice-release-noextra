@@ -33,21 +33,22 @@ if ($JAVA -eq "")
 	Start-BitsTransfer -Source $JreURL -Destination "$PSScriptRoot\java.zip"
 	Expand-Archive "$PSScriptRoot\java.zip" -DestinationPath "$PSScriptRoot\jre\"
 	Remove-Item "$PSScriptRoot\java.zip"
-}
-
-Try 
-{
-	$Command = Get-Command -Name "$PSScriptRoot\jre\bin\java" -ErrorAction Stop
-	if (($Command | Select-Object -ExpandProperty Version).Major -ge 11)
+	Try 
 	{
-		$JAVA = "$PSScriptRoot\jre\bin\java"
+		$Command = Get-Command -Name "$PSScriptRoot\jre\bin\java" -ErrorAction Stop
+		if (($Command | Select-Object -ExpandProperty Version).Major -ge 11)
+		{
+			$JAVA = "$PSScriptRoot\jre\bin\java"
+		}
+	}
+	Catch 
+	{
+		Write-Host "无法加载Java!" -ForegroundColor red
+		Exit
 	}
 }
-Catch 
-{
-	Write-Host "无法加载Java!" -ForegroundColor red
-	Exit
-}
+
+
 
 Write-Host "Java: $JAVA" -ForegroundColor green
 Write-Host "检测Git"
@@ -71,17 +72,16 @@ if ($GIT -eq "")
 	Start-BitsTransfer -Source $GitURL -Destination "$PSScriptRoot\git.zip"
 	Expand-Archive "$PSScriptRoot\git.zip" -DestinationPath "$PSScriptRoot\git\"
 	Remove-Item "$PSScriptRoot\git.zip"
-}
-
-Try 
-{
-	$Command = Get-Command -Name "$PSScriptRoot\git\cmd\git" -ErrorAction Stop
-	$GIT = "$PSScriptRoot\git\cmd\git"
-}
-Catch 
-{
-	Write-Host "无法加载Git!" -ForegroundColor red
-	Exit
+	Try 
+	{
+		$Command = Get-Command -Name "$PSScriptRoot\git\cmd\git" -ErrorAction Stop
+		$GIT = "$PSScriptRoot\git\cmd\git"
+	}
+	Catch 
+	{
+		Write-Host "无法加载Git!" -ForegroundColor red
+		Exit
+	}
 }
 
 Write-Host "Git: $GIT" -ForegroundColor green
