@@ -7,7 +7,6 @@ $GIT = ""
 cd $PSScriptRoot
 
 Import-Module BitsTransfer
-Import-Module Microsoft.PowerShell.Archive
 
 Write-Host "Mirai Dice ∆Ù∂ØΩ≈±æ"
 Write-Host "ºÏ≤‚Java"
