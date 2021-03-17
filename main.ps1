@@ -6,9 +6,12 @@ $GIT = ""
 
 cd $PSScriptRoot
 
-Write-Host "Mirai Dice 启动脚本"
+Import-Module BitsTransfer
+Import-Module Microsoft.PowerShell.Archive
 
+Write-Host "Mirai Dice 启动脚本"
 Write-Host "检测Java"
+
 Try 
 {
 	$Command = Get-Command -Name java -ErrorAction Stop
