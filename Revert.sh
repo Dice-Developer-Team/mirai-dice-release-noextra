@@ -1,3 +1,4 @@
 #!/bin/bash
-cd $(dirname $0)
+path=$(dirname "$0")
+cd "$path"
 git reset --hard HEAD@{1}
