@@ -14,7 +14,7 @@ Write-Host "ºÏ≤‚Java"
 Try 
 {
 	$Command = Get-Command -Name java -ErrorAction Stop
-	if (($Command | Select-Object -ExpandProperty Version).Major -ge 11)
+	if (($Command | Select-Object -ExpandProperty FileVersionInfo | Select-Object ProductMajorPart).ProductMajorPart -ge 11)
 	{
 		$JAVA = "java"
 	}
@@ -23,7 +23,7 @@ Catch {}
 
 Try {
 	$Command = Get-Command -Name "$PSScriptRoot\jre\bin\java" -ErrorAction Stop
-	if (($Command | Select-Object -ExpandProperty Version).Major -ge 11)
+	if (($Command | Select-Object -ExpandProperty FileVersionInfo | Select-Object ProductMajorPart).ProductMajorPart -ge 11)
 	{
 		$JAVA = "$PSScriptRoot\jre\bin\java"
 	}
@@ -38,7 +38,7 @@ if ($JAVA -eq "")
 	Try 
 	{
 		$Command = Get-Command -Name "$PSScriptRoot\jre\bin\java" -ErrorAction Stop
-		if (($Command | Select-Object -ExpandProperty Version).Major -ge 11)
+		if (($Command | Select-Object -ExpandProperty FileVersionInfo | Select-Object ProductMajorPart).ProductMajorPart -ge 11)
 		{
 			$JAVA = "$PSScriptRoot\jre\bin\java"
 		}
