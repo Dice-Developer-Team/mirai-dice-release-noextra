@@ -11,6 +11,14 @@ Import-Module BitsTransfer
 Write-Host "Mirai Dice ∆Ù∂ØΩ≈±æ"
 Write-Host "ºÏ≤‚Java"
 
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+function Unzip
+{
+    param([string]$zipfile, [string]$outpath)
+
+    [System.IO.Compression.ZipFile]::ExtractToDirectory($zipfile, $outpath)
+}
+
 Try 
 {
 	$Command = Get-Command -Name java -ErrorAction Stop
@@ -33,7 +41,7 @@ Catch {}
 if ($JAVA -eq "")
 {
 	Start-BitsTransfer -Source $JreURL -Destination "$PSScriptRoot\java.zip"
-	Expand-Archive "$PSScriptRoot\java.zip" -DestinationPath "$PSScriptRoot\jre\"
+	Unzip "$PSScriptRoot\java.zip" "$PSScriptRoot\jre\"
 	Remove-Item "$PSScriptRoot\java.zip"
 	Try 
 	{
@@ -72,7 +80,7 @@ Catch {}
 if ($GIT -eq "")
 {
 	Start-BitsTransfer -Source $GitURL -Destination "$PSScriptRoot\git.zip"
-	Expand-Archive "$PSScriptRoot\git.zip" -DestinationPath "$PSScriptRoot\git\"
+	Unzip "$PSScriptRoot\git.zip" "$PSScriptRoot\git\"
 	Remove-Item "$PSScriptRoot\git.zip"
 	Try 
 	{
@@ -106,7 +114,7 @@ elseif (($args[0] -eq "--autoslider") -or ($args[0] -eq "-a"))
 elseif (($args[0] -eq "--slider") -or ($args[0] -eq "-s")) 
 {
 	del -Path "$PSScriptRoot\plugins\mirai-login-solver-selenium*"
-	& "$JAVA" -Dmirai.slider.captcha.supported -jar mcl.jar
+	& "$JAVA" "-Dmirai.slider.captcha.supported" "-jar" "mcl.jar"
 }
 else
 {
