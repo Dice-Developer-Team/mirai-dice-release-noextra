@@ -11,12 +11,35 @@ Import-Module BitsTransfer
 Write-Host "Mirai Dice 启动脚本"
 Write-Host "检测Java"
 
-Add-Type -AssemblyName System.IO.Compression.FileSystem
-function Unzip
+Try 
 {
-    param([string]$zipfile, [string]$outpath)
+	Add-Type -AssemblyName System.IO.Compression.FileSystem -ErrorAction Stop
+	function Unzip
+	{
+		param([string]$zipfile, [string]$outpath)
 
-    [System.IO.Compression.ZipFile]::ExtractToDirectory($zipfile, $outpath)
+		[System.IO.Compression.ZipFile]::ExtractToDirectory($zipfile, $outpath)
+	}
+}
+Catch {
+	if (-Not (Test-Path -Path ".\unzip.exe" -PathType Leaf))
+	{
+		$ZipURL = "https://gitee.com/suhuiw4123/mirai-dice-release/attach_files/646126/download/unzip.exe"
+		Start-BitsTransfer -Source $ZipURL -Destination ".\unzip.exe"
+	}
+	
+	if (-Not (Test-Path -Path ".\unzip.exe" -PathType Leaf))
+	{
+		Write-Host "无法加载Unzip" -ForegroundColor red
+		Exit
+	}
+	
+	function Unzip
+	{
+		param([string]$zipfile, [string]$outpath)
+
+		& .\unzip.exe $zipfile -d $outpath
+	}
 }
 
 Try 
