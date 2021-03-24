@@ -4,7 +4,12 @@ $GitURL = "https://gitee.com/suhuiw4123/mirai-dice-release/attach_files/637695/d
 $JAVA = ""
 $GIT = ""
 
-cd $PSScriptRoot
+if (!$PSScriptRoot)
+{
+	$PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
+}
+
+cd "$PSScriptRoot"
 
 Import-Module BitsTransfer
 
@@ -22,13 +27,13 @@ Try
 	}
 }
 Catch {
-	if (-Not (Test-Path -Path ".\unzip.exe" -PathType Leaf))
+	if (-Not (Test-Path -Path "$PSScriptRoot\unzip.exe" -PathType Leaf))
 	{
 		$ZipURL = "https://gitee.com/suhuiw4123/mirai-dice-release/attach_files/646126/download/unzip.exe"
-		Start-BitsTransfer -Source $ZipURL -Destination ".\unzip.exe"
+		Start-BitsTransfer -Source $ZipURL -Destination "$PSScriptRoot\unzip.exe"
 	}
 	
-	if (-Not (Test-Path -Path ".\unzip.exe" -PathType Leaf))
+	if (-Not (Test-Path -Path "$PSScriptRoot\unzip.exe" -PathType Leaf))
 	{
 		Write-Host "Œﬁ∑®º”‘ÿUnzip" -ForegroundColor red
 		Exit
