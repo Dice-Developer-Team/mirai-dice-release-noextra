@@ -103,6 +103,10 @@
         {
             "name": "综合管理",
             "function": "eventGUI"
+        },
+        {
+            "name": "Master模式切换",
+            "function": "eventMasterMode"
         }
     ],
     "status": [
