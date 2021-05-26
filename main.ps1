@@ -133,19 +133,29 @@ if (($args[0] -eq "--revert") -or ($args[0] -eq "-r"))
 {
 	& "$GIT" reset --hard "HEAD@{1}"
 }
+elseif (($args[0] -eq "--fullautoslider") -or ($args[0] -eq "-f")) 
+{
+	del -Path "$PSScriptRoot\plugins\mirai-automatic-slider*"
+	del -Path "$PSScriptRoot\plugins\mirai-login-solver-selenium*"
+	copy -Path "$PSScriptRoot\fslider\mirai-automatic-slider*" "$PSScriptRoot\plugins\"
+	& "$JAVA" -jar mcl.jar
+}
 elseif (($args[0] -eq "--autoslider") -or ($args[0] -eq "-a")) 
 {
+	del -Path "$PSScriptRoot\plugins\mirai-automatic-slider*"
+	del -Path "$PSScriptRoot\plugins\mirai-login-solver-selenium*"
 	copy -Path "$PSScriptRoot\slider\mirai-login-solver-selenium*" "$PSScriptRoot\plugins\"
 	& "$JAVA" -jar mcl.jar
-	
 }
 elseif (($args[0] -eq "--slider") -or ($args[0] -eq "-s")) 
 {
+	del -Path "$PSScriptRoot\plugins\mirai-automatic-slider*"
 	del -Path "$PSScriptRoot\plugins\mirai-login-solver-selenium*"
 	& "$JAVA" "-Dmirai.slider.captcha.supported" "-jar" "mcl.jar"
 }
 else
 {
+	del -Path "$PSScriptRoot\plugins\mirai-automatic-slider*"
 	del -Path "$PSScriptRoot\plugins\mirai-login-solver-selenium*"
 	& "$JAVA" -jar mcl.jar
 }
