@@ -11,7 +11,31 @@ if (!$PSScriptRoot)
 
 cd "$PSScriptRoot"
 
-Import-Module BitsTransfer
+function DownloadFile($url, $targetFile)
+{
+   $uri = New-Object "System.Uri" "$url"
+   $request = [System.Net.HttpWebRequest]::Create($uri)
+   $request.set_Timeout(15000) #15 second timeout
+   $response = $request.GetResponse()
+   $totalLength = [System.Math]::Floor($response.get_ContentLength()/1024)
+   $responseStream = $response.GetResponseStream()
+   $targetStream = New-Object -TypeName System.IO.FileStream -ArgumentList $targetFile, Create
+   $buffer = new-object byte[] 256KB
+   $count = $responseStream.Read($buffer,0,$buffer.length)
+   $downloadedBytes = $count
+   while ($count -gt 0)
+   {
+       $targetStream.Write($buffer, 0, $count)
+       $count = $responseStream.Read($buffer,0,$buffer.length)
+       $downloadedBytes = $downloadedBytes + $count
+       Write-Progress -activity "正在下载文件 '$($url.split('/') | Select -Last 1)'" -status "已下载 ($([System.Math]::Floor($downloadedBytes/1024))K of $($totalLength)K): " -PercentComplete ((([System.Math]::Floor($downloadedBytes/1024)) / $totalLength)  * 100)
+   }
+   Write-Progress -activity "文件 '$($url.split('/') | Select -Last 1)' 下载已完成"
+   $targetStream.Flush()
+   $targetStream.Close()
+   $targetStream.Dispose()
+   $responseStream.Dispose()
+}
 
 Write-Host "Mirai Dice 启动脚本"
 Write-Host "检测Java"
@@ -30,7 +54,7 @@ Catch {
 	if (-Not (Test-Path -Path "$PSScriptRoot\unzip.exe" -PathType Leaf))
 	{
 		$ZipURL = "https://gitee.com/suhuiw4123/mirai-dice-release/attach_files/646126/download/unzip.exe"
-		Start-BitsTransfer -Source $ZipURL -Destination "$PSScriptRoot\unzip.exe"
+		DownloadFile $ZipURL "$PSScriptRoot\unzip.exe"
 	}
 	
 	if (-Not (Test-Path -Path "$PSScriptRoot\unzip.exe" -PathType Leaf))
@@ -68,7 +92,7 @@ Catch {}
 
 if ($JAVA -eq "")
 {
-	Start-BitsTransfer -Source $JreURL -Destination "$PSScriptRoot\java.zip"
+	DownloadFile $JreURL "$PSScriptRoot\java.zip"
 	Unzip "$PSScriptRoot\java.zip" "$PSScriptRoot\jre\"
 	Remove-Item "$PSScriptRoot\java.zip"
 	Try 
@@ -107,7 +131,7 @@ Catch {}
 
 if ($GIT -eq "")
 {
-	Start-BitsTransfer -Source $GitURL -Destination "$PSScriptRoot\git.zip"
+	DownloadFile $GitURL "$PSScriptRoot\git.zip"
 	Unzip "$PSScriptRoot\git.zip" "$PSScriptRoot\git\"
 	Remove-Item "$PSScriptRoot\git.zip"
 	Try 
@@ -128,10 +152,12 @@ if (($args[0] -eq "--update") -or ($args[0] -eq "-u"))
 {
 	& "$GIT" fetch --depth=1
 	& "$GIT" reset --hard origin/master
+	Write-Host "更新操作已执行完毕" -ForegroundColor green
 }
-if (($args[0] -eq "--revert") -or ($args[0] -eq "-r"))
+elseif (($args[0] -eq "--revert") -or ($args[0] -eq "-r"))
 {
 	& "$GIT" reset --hard "HEAD@{1}"
+	Write-Host "回滚操作已执行完毕" -ForegroundColor green
 }
 elseif (($args[0] -eq "--fullautoslider") -or ($args[0] -eq "-f")) 
 {
