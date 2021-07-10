@@ -38,7 +38,15 @@ function DownloadFile($url, $targetFile)
 }
 
 Write-Host "Mirai Dice 启动脚本"
-Write-Host "检测Java"
+Write-Host "初始化"
+
+if (-Not (Test-Path -Path "$PSScriptRoot\.git" -PathType Container))
+{
+	Write-Host "警告：.git文件夹不存在" -ForegroundColor red
+	Write-Host "这可能代表你未使用正确方式安装此程序" -ForegroundColor red
+	Write-Host "虽然大多数功能仍将正常工作，但更新功能将无法正常使用" -ForegroundColor red
+	Write-Host "请尝试使用正确方式重新安装以解决此问题" -ForegroundColor red
+}
 
 Try 
 {
@@ -70,6 +78,9 @@ Catch {
 		& .\unzip.exe $zipfile -d $outpath
 	}
 }
+
+
+Write-Host "检测Java"
 
 Try 
 {
