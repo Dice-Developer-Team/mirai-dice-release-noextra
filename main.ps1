@@ -28,9 +28,9 @@ function DownloadFile($url, $targetFile)
        $targetStream.Write($buffer, 0, $count)
        $count = $responseStream.Read($buffer,0,$buffer.length)
        $downloadedBytes = $downloadedBytes + $count
-       Write-Progress -activity "正在下载文件 '$($url.split('/') | Select -Last 1)'" -status "已下载 ($([System.Math]::Floor($downloadedBytes/1024))K of $($totalLength)K): " -PercentComplete ((([System.Math]::Floor($downloadedBytes/1024)) / $totalLength)  * 100)
+       Write-Progress -activity "正在下载文件 '$($url.split('/') | Select -Last 1)'" -Status "已下载 ($([System.Math]::Floor($downloadedBytes/1024))K of $($totalLength)K): " -PercentComplete ((([System.Math]::Floor($downloadedBytes/1024)) / $totalLength)  * 100)
    }
-   Write-Progress -activity "文件 '$($url.split('/') | Select -Last 1)' 下载已完成"
+   Write-Progress -activity "文件 '$($url.split('/') | Select -Last 1)' 下载已完成" -Status "下载已完成" -Completed
    $targetStream.Flush()
    $targetStream.Close()
    $targetStream.Dispose()
