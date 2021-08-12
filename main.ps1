@@ -104,6 +104,7 @@ Catch {}
 if ($JAVA -eq "")
 {
 	DownloadFile $JreURL "$PSScriptRoot\java.zip"
+	Remove-Item "$PSScriptRoot\jre\" -Recurse
 	Unzip "$PSScriptRoot\java.zip" "$PSScriptRoot\jre\"
 	Remove-Item "$PSScriptRoot\java.zip"
 	Try 
@@ -143,6 +144,7 @@ Catch {}
 if ($GIT -eq "")
 {
 	DownloadFile $GitURL "$PSScriptRoot\git.zip"
+	Remove-Item "$PSScriptRoot\git\" -Recurse
 	Unzip "$PSScriptRoot\git.zip" "$PSScriptRoot\git\"
 	Remove-Item "$PSScriptRoot\git.zip"
 	Try 
