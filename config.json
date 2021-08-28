@@ -6,25 +6,25 @@
     {
       "id": "net.mamoe:mirai-console",
       "channel": "beta",
-      "version": "2.6.7",
+      "version": "2.7.0",
       "type": "libs"
     },
     {
       "id": "net.mamoe:mirai-console-terminal",
       "channel": "beta",
-      "version": "2.6.7",
+      "version": "2.7.0",
       "type": "libs"
     },
     {
       "id": "net.mamoe:mirai-core-all",
       "channel": "beta",
-      "version": "2.6.7",
+      "version": "2.7.0",
       "type": "libs"
     },
     {
       "id": "org.itxtech:mirai-native",
       "channel": "beta",
-      "version": "2.0.1",
+      "version": "2.0.3-cp",
       "type": "plugins"
     },
     {
