@@ -104,9 +104,9 @@ Catch {}
 if ($JAVA -eq "")
 {
 	DownloadFile $JreURL "$PSScriptRoot\java.zip"
-	Remove-Item "$PSScriptRoot\jre\" -Recurse
+	Remove-Item "$PSScriptRoot\jre\" -Recurse -ErrorAction SilentlyContinue
 	Unzip "$PSScriptRoot\java.zip" "$PSScriptRoot\jre\"
-	Remove-Item "$PSScriptRoot\java.zip"
+	Remove-Item "$PSScriptRoot\java.zip" -ErrorAction SilentlyContinue
 	Try 
 	{
 		$Command = Get-Command -Name "$PSScriptRoot\jre\bin\java" -ErrorAction Stop
@@ -144,9 +144,9 @@ Catch {}
 if ($GIT -eq "")
 {
 	DownloadFile $GitURL "$PSScriptRoot\git.zip"
-	Remove-Item "$PSScriptRoot\git\" -Recurse
+	Remove-Item "$PSScriptRoot\git\" -Recurse -ErrorAction SilentlyContinue
 	Unzip "$PSScriptRoot\git.zip" "$PSScriptRoot\git\"
-	Remove-Item "$PSScriptRoot\git.zip"
+	Remove-Item "$PSScriptRoot\git.zip" -ErrorAction SilentlyContinue
 	Try 
 	{
 		$Command = Get-Command -Name "$PSScriptRoot\git\cmd\git" -ErrorAction Stop
