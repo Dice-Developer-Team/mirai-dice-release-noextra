@@ -30,5 +30,4 @@ if errorlevel 1 (
     )
 )
 !POWERSHELL_EXEC! -ExecutionPolicy Bypass .\main.ps1 -s
-endlocal
 pause
