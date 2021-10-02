@@ -1,5 +1,5 @@
-$JreURL = "https://gitee.com/suhuiw4123/mirai-dice-release/attach_files/637574/download/OpenJDK11U-Windows-x86.zip"
-$GitURL = "https://gitee.com/suhuiw4123/mirai-dice-release/attach_files/637695/download/MinGit-Windows-x86.zip"
+$JreURL = "https://download.fastgit.org/w4123/mirai-dice-release-noextra/releases/download/dep/OpenJDK11U-Windows-x86.zip"
+$GitURL = "https://download.fastgit.org/w4123/mirai-dice-release-noextra/releases/download/dep/MinGit-Windows-x86.zip"
 
 $JAVA = ""
 $GIT = ""
@@ -13,6 +13,7 @@ cd "$PSScriptRoot"
 
 function DownloadFile($url, $targetFile)
 {
+   [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls -bor [System.Net.SecurityProtocolType]::Tls11 -bor [System.Net.SecurityProtocolType]::Tls12
    $uri = New-Object "System.Uri" "$url"
    $request = [System.Net.HttpWebRequest]::Create($uri)
    $request.set_Timeout(15000) #15 second timeout
@@ -61,7 +62,7 @@ Try
 Catch {
 	if (-Not (Test-Path -Path "$PSScriptRoot\unzip.exe" -PathType Leaf))
 	{
-		$ZipURL = "https://gitee.com/suhuiw4123/mirai-dice-release/attach_files/646126/download/unzip.exe"
+		$ZipURL = "https://download.fastgit.org/w4123/mirai-dice-release-noextra/releases/download/dep/unzip.exe"
 		DownloadFile $ZipURL "$PSScriptRoot\unzip.exe"
 	}
 	
