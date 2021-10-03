@@ -1,8 +1,14 @@
-$JreURL = "https://download.fastgit.org/w4123/mirai-dice-release-noextra/releases/download/dep/OpenJDK11U-Windows-x86.zip"
+ï»¿$JreURL = "https://download.fastgit.org/w4123/mirai-dice-release-noextra/releases/download/dep/OpenJDK11U-Windows-x86.zip"
 $GitURL = "https://download.fastgit.org/w4123/mirai-dice-release-noextra/releases/download/dep/MinGit-Windows-x86.zip"
 
 $JAVA = ""
 $GIT = ""
+
+if ($PSVersionTable.PSVersion.Major -Le 2)
+{
+    Write-Host "Powershellç‰ˆæœ¬è¿‡æ—§ï¼Œç¨‹åºå¯èƒ½æ— æ³•æ­£å¸¸è¿è¡Œï¼Œä½†ç¨‹åºå°†å°è¯•ç»§ç»­è¿è¡Œã€‚è¯·å‡çº§WMFï¼Œè¯¦è§è®ºå›ã€‚" -ForegroundColor red
+    Read-Host -Prompt "æŒ‰å›è½¦é”®ç»§ç»­ ----->" 
+}
 
 if (!$PSScriptRoot)
 {
@@ -29,24 +35,24 @@ function DownloadFile($url, $targetFile)
        $targetStream.Write($buffer, 0, $count)
        $count = $responseStream.Read($buffer,0,$buffer.length)
        $downloadedBytes = $downloadedBytes + $count
-       Write-Progress -activity "ÕıÔÚÏÂÔØÎÄ¼ş '$($url.split('/') | Select -Last 1)'" -Status "ÒÑÏÂÔØ ($([System.Math]::Floor($downloadedBytes/1024))K of $($totalLength)K): " -PercentComplete ((([System.Math]::Floor($downloadedBytes/1024)) / $totalLength)  * 100)
+       Write-Progress -activity "æ­£åœ¨ä¸‹è½½æ–‡ä»¶ '$($url.split('/') | Select -Last 1)'" -Status "å·²ä¸‹è½½ ($([System.Math]::Floor($downloadedBytes/1024))K of $($totalLength)K): " -PercentComplete ((([System.Math]::Floor($downloadedBytes/1024)) / $totalLength)  * 100)
    }
-   Write-Progress -activity "ÎÄ¼ş '$($url.split('/') | Select -Last 1)' ÏÂÔØÒÑÍê³É" -Status "ÏÂÔØÒÑÍê³É" -Completed
+   Write-Progress -activity "æ–‡ä»¶ '$($url.split('/') | Select -Last 1)' ä¸‹è½½å·²å®Œæˆ" -Status "ä¸‹è½½å·²å®Œæˆ" -Completed
    $targetStream.Flush()
    $targetStream.Close()
    $targetStream.Dispose()
    $responseStream.Dispose()
 }
 
-Write-Host "Mirai Dice Æô¶¯½Å±¾"
-Write-Host "³õÊ¼»¯"
+Write-Host "Mirai Dice å¯åŠ¨è„šæœ¬"
+Write-Host "åˆå§‹åŒ–"
 
 if (-Not (Test-Path -Path "$PSScriptRoot\.git" -PathType Container))
 {
-	Write-Host "¾¯¸æ£º.gitÎÄ¼ş¼Ğ²»´æÔÚ" -ForegroundColor red
-	Write-Host "Õâ¿ÉÄÜ´ú±íÄãÎ´Ê¹ÓÃÕıÈ··½Ê½°²×°´Ë³ÌĞò" -ForegroundColor red
-	Write-Host "ËäÈ»´ó¶àÊı¹¦ÄÜÈÔ½«Õı³£¹¤×÷£¬µ«¸üĞÂ¹¦ÄÜ½«ÎŞ·¨Õı³£Ê¹ÓÃ" -ForegroundColor red
-	Write-Host "Çë³¢ÊÔÊ¹ÓÃÕıÈ··½Ê½ÖØĞÂ°²×°ÒÔ½â¾ö´ËÎÊÌâ" -ForegroundColor red
+	Write-Host "è­¦å‘Šï¼š.gitæ–‡ä»¶å¤¹ä¸å­˜åœ¨" -ForegroundColor red
+	Write-Host "è¿™å¯èƒ½ä»£è¡¨ä½ æœªä½¿ç”¨æ­£ç¡®æ–¹å¼å®‰è£…æ­¤ç¨‹åº" -ForegroundColor red
+	Write-Host "è™½ç„¶å¤§å¤šæ•°åŠŸèƒ½ä»å°†æ­£å¸¸å·¥ä½œï¼Œä½†æ›´æ–°åŠŸèƒ½å°†æ— æ³•æ­£å¸¸ä½¿ç”¨" -ForegroundColor red
+	Write-Host "è¯·å°è¯•ä½¿ç”¨æ­£ç¡®æ–¹å¼é‡æ–°å®‰è£…ä»¥è§£å†³æ­¤é—®é¢˜" -ForegroundColor red
 }
 
 Try 
@@ -68,7 +74,7 @@ Catch {
 	
 	if (-Not (Test-Path -Path "$PSScriptRoot\unzip.exe" -PathType Leaf))
 	{
-		Write-Host "ÎŞ·¨¼ÓÔØUnzip" -ForegroundColor red
+		Write-Host "æ— æ³•åŠ è½½Unzip" -ForegroundColor red
 		Exit
 	}
 	
@@ -81,7 +87,7 @@ Catch {
 }
 
 
-Write-Host "¼ì²âJava"
+Write-Host "æ£€æµ‹Java"
 
 Try 
 {
@@ -118,7 +124,7 @@ if ($JAVA -eq "")
 	}
 	Catch 
 	{
-		Write-Host "ÎŞ·¨¼ÓÔØJava!" -ForegroundColor red
+		Write-Host "æ— æ³•åŠ è½½Java!" -ForegroundColor red
 		Exit
 	}
 }
@@ -126,7 +132,7 @@ if ($JAVA -eq "")
 
 
 Write-Host "Java: $JAVA" -ForegroundColor green
-Write-Host "¼ì²âGit"
+Write-Host "æ£€æµ‹Git"
 
 Try 
 {
@@ -155,7 +161,7 @@ if ($GIT -eq "")
 	}
 	Catch 
 	{
-		Write-Host "ÎŞ·¨¼ÓÔØGit!" -ForegroundColor red
+		Write-Host "æ— æ³•åŠ è½½Git!" -ForegroundColor red
 		Exit
 	}
 }
@@ -166,12 +172,12 @@ if (($args[0] -eq "--update") -or ($args[0] -eq "-u"))
 {
 	& "$GIT" fetch --depth=1
 	& "$GIT" reset --hard origin/master
-	Write-Host "¸üĞÂ²Ù×÷ÒÑÖ´ĞĞÍê±Ï" -ForegroundColor green
+	Write-Host "æ›´æ–°æ“ä½œå·²æ‰§è¡Œå®Œæ¯•" -ForegroundColor green
 }
 elseif (($args[0] -eq "--revert") -or ($args[0] -eq "-r"))
 {
 	& "$GIT" reset --hard "HEAD@{1}"
-	Write-Host "»Ø¹ö²Ù×÷ÒÑÖ´ĞĞÍê±Ï" -ForegroundColor green
+	Write-Host "å›æ»šæ“ä½œå·²æ‰§è¡Œå®Œæ¯•" -ForegroundColor green
 }
 elseif (($args[0] -eq "--fullautoslider") -or ($args[0] -eq "-f")) 
 {
