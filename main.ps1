@@ -4,10 +4,38 @@ $GitURL = "https://download.fastgit.org/w4123/mirai-dice-release-noextra/release
 $JAVA = ""
 $GIT = ""
 
-if ($PSVersionTable.PSVersion.Major -Le 2)
+if (-Not [System.Net.SecurityProtocolType]::Tls12)
 {
-    Write-Host "Powershell版本过旧，程序可能无法正常运行，但程序将尝试继续运行。请升级WMF，详见论坛。" -ForegroundColor red
-    Read-Host -Prompt "按回车键继续 ----->" 
+	$TLSSource = @"
+		using System.Net;
+		public static class SecurityProtocolTypeExtensions
+		{
+			public const SecurityProtocolType EnableTls12 = (SecurityProtocolType)4032;
+		}
+"@
+	
+	Add-Type -TypeDefinition $TlSSource
+	
+	Try
+	{
+		[System.Net.ServicePointManager]::SecurityProtocol = [SecurityProtocolTypeExtensions]::EnableTls12
+	}
+	Catch
+	{
+		if ($PSVersionTable.PSVersion.Major -Le 2)
+		{
+			Write-Host "当前系统配置不支持TLS1.2，程序可能无法正常运行。请确保你正在使用Win7SP1或者Win2008R2SP1或更高版本，并打开Windows Update安装有关.Net Framework的更新后重试。"
+		}
+		else
+		{
+			Write-Host "当前系统配置不支持TLS1.2，程序可能无法正常运行。请更新至.Net Framework 4.5或更高版本后重试。"
+		}
+		Read-Host -Prompt "按回车键继续执行，但程序可能无法正常运行 ----->" 
+	}
+}
+else
+{
+	[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls -bor [System.Net.SecurityProtocolType]::Tls11 -bor [System.Net.SecurityProtocolType]::Tls12
 }
 
 if (!$PSScriptRoot)
@@ -19,7 +47,6 @@ cd "$PSScriptRoot"
 
 function DownloadFile($url, $targetFile)
 {
-   [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls -bor [System.Net.SecurityProtocolType]::Tls11 -bor [System.Net.SecurityProtocolType]::Tls12
    $uri = New-Object "System.Uri" "$url"
    $request = [System.Net.HttpWebRequest]::Create($uri)
    $request.set_Timeout(15000) #15 second timeout
