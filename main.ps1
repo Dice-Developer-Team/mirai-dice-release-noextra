@@ -1,9 +1,10 @@
-﻿$JreURL = "https://download.fastgit.org/w4123/mirai-dice-release-noextra/releases/download/dep/OpenJDK11U-Windows-x86.zip"
-$GitURL = "https://download.fastgit.org/w4123/mirai-dice-release-noextra/releases/download/dep/MinGit-Windows-x86.zip"
+﻿$JreURL = "https://dice-suhui-release-1252272169.file.myqcloud.com/OpenJDK11U-Windows-x86.zip"
+$GitURL = "https://dice-suhui-release-1252272169.file.myqcloud.com/MinGit-Windows-x86.zip"
 
 $JAVA = ""
 $GIT = ""
 
+# 尝试开启Tls1.2
 if (-Not [System.Net.SecurityProtocolType]::Tls12)
 {
 	$TLSSource = @"
@@ -22,6 +23,8 @@ if (-Not [System.Net.SecurityProtocolType]::Tls12)
 	}
 	Catch
 	{
+<#
+		开启失败，暂时不报错，因为当前切换到了支持Tls1.0的下载地址
 		if ($PSVersionTable.PSVersion.Major -Le 2)
 		{
 			Write-Host "当前系统配置不支持TLS1.2，程序可能无法正常运行。请确保你正在使用Win7SP1或者Win2008R2SP1或更高版本，并打开Windows Update安装有关.Net Framework的更新后重试。"
@@ -31,6 +34,7 @@ if (-Not [System.Net.SecurityProtocolType]::Tls12)
 			Write-Host "当前系统配置不支持TLS1.2，程序可能无法正常运行。请更新至.Net Framework 4.5或更高版本后重试。"
 		}
 		Read-Host -Prompt "按回车键继续执行，但程序可能无法正常运行 ----->" 
+#>
 	}
 }
 else
@@ -95,7 +99,7 @@ Try
 Catch {
 	if (-Not (Test-Path -Path "$PSScriptRoot\unzip.exe" -PathType Leaf))
 	{
-		$ZipURL = "https://download.fastgit.org/w4123/mirai-dice-release-noextra/releases/download/dep/unzip.exe"
+		$ZipURL = "https://dice-suhui-release-1252272169.file.myqcloud.com/unzip.exe"
 		DownloadFile $ZipURL "$PSScriptRoot\unzip.exe"
 	}
 	
