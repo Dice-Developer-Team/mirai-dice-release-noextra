@@ -47,7 +47,7 @@ if (!$PSScriptRoot)
 	$PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
 }
 
-cd "$PSScriptRoot"
+cd -LiteralPath "$PSScriptRoot"
 
 function DownloadFile($url, $targetFile)
 {
@@ -78,7 +78,7 @@ function DownloadFile($url, $targetFile)
 Write-Host "Mirai Dice 启动脚本"
 Write-Host "初始化"
 
-if (-Not (Test-Path -Path "$PSScriptRoot\.git" -PathType Container))
+if (-Not (Test-Path -LiteralPath "$PSScriptRoot\.git" -PathType Container))
 {
 	Write-Host "警告：.git文件夹不存在" -ForegroundColor red
 	Write-Host "这可能代表你未使用正确方式安装此程序" -ForegroundColor red
@@ -97,13 +97,13 @@ Try
 	}
 }
 Catch {
-	if (-Not (Test-Path -Path "$PSScriptRoot\unzip.exe" -PathType Leaf))
+	if (-Not (Test-Path -LiteralPath "$PSScriptRoot\unzip.exe" -PathType Leaf))
 	{
 		$ZipURL = "https://dice-suhui-release-1252272169.file.myqcloud.com/unzip.exe"
 		DownloadFile $ZipURL "$PSScriptRoot\unzip.exe"
 	}
 	
-	if (-Not (Test-Path -Path "$PSScriptRoot\unzip.exe" -PathType Leaf))
+	if (-Not (Test-Path -LiteralPath "$PSScriptRoot\unzip.exe" -PathType Leaf))
 	{
 		Write-Host "无法加载Unzip" -ForegroundColor red
 		Exit
@@ -131,10 +131,10 @@ Try
 Catch {}
 
 Try {
-	$Command = Get-Command -Name "$PSScriptRoot\jre\bin\java" -ErrorAction Stop
+	$Command = Get-Command -Name ".\jre\bin\java" -ErrorAction Stop
 	if (($Command | Select-Object -ExpandProperty FileVersionInfo | Select-Object ProductMajorPart).ProductMajorPart -ge 11)
 	{
-		$JAVA = "$PSScriptRoot\jre\bin\java"
+		$JAVA = ".\jre\bin\java"
 	}
 }
 Catch {}
@@ -142,15 +142,15 @@ Catch {}
 if ($JAVA -eq "")
 {
 	DownloadFile $JreURL "$PSScriptRoot\java.zip"
-	Remove-Item "$PSScriptRoot\jre\" -Recurse -ErrorAction SilentlyContinue
+	Remove-Item -LiteralPath "$PSScriptRoot\jre\" -Recurse -ErrorAction SilentlyContinue
 	Unzip "$PSScriptRoot\java.zip" "$PSScriptRoot\jre\"
-	Remove-Item "$PSScriptRoot\java.zip" -ErrorAction SilentlyContinue
+	Remove-Item -LiteralPath "$PSScriptRoot\java.zip" -ErrorAction SilentlyContinue
 	Try 
 	{
-		$Command = Get-Command -Name "$PSScriptRoot\jre\bin\java" -ErrorAction Stop
+		$Command = Get-Command -Name ".\jre\bin\java" -ErrorAction Stop
 		if (($Command | Select-Object -ExpandProperty FileVersionInfo | Select-Object ProductMajorPart).ProductMajorPart -ge 11)
 		{
-			$JAVA = "$PSScriptRoot\jre\bin\java"
+			$JAVA = ".\jre\bin\java"
 		}
 	}
 	Catch 
@@ -174,21 +174,21 @@ Catch {}
 
 Try 
 {
-	$Command = Get-Command -Name "$PSScriptRoot\git\cmd\git" -ErrorAction Stop
-	$GIT = "$PSScriptRoot\git\cmd\git"
+	$Command = Get-Command -Name ".\git\cmd\git" -ErrorAction Stop
+	$GIT = ".\git\cmd\git"
 }
 Catch {}
 
 if ($GIT -eq "")
 {
 	DownloadFile $GitURL "$PSScriptRoot\git.zip"
-	Remove-Item "$PSScriptRoot\git\" -Recurse -ErrorAction SilentlyContinue
+	Remove-Item -LiteralPath "$PSScriptRoot\git\" -Recurse -ErrorAction SilentlyContinue
 	Unzip "$PSScriptRoot\git.zip" "$PSScriptRoot\git\"
-	Remove-Item "$PSScriptRoot\git.zip" -ErrorAction SilentlyContinue
+	Remove-Item -LiteralPath "$PSScriptRoot\git.zip" -ErrorAction SilentlyContinue
 	Try 
 	{
-		$Command = Get-Command -Name "$PSScriptRoot\git\cmd\git" -ErrorAction Stop
-		$GIT = "$PSScriptRoot\git\cmd\git"
+		$Command = Get-Command -Name ".\git\cmd\git" -ErrorAction Stop
+		$GIT = ".\git\cmd\git"
 	}
 	Catch 
 	{
@@ -212,28 +212,28 @@ elseif (($args[0] -eq "--revert") -or ($args[0] -eq "-r"))
 }
 elseif (($args[0] -eq "--fullautoslider") -or ($args[0] -eq "-f")) 
 {
-	del -Path "$PSScriptRoot\plugins\mirai-automatic-slider*"
-	del -Path "$PSScriptRoot\plugins\mirai-login-solver-selenium*"
-	copy -Path "$PSScriptRoot\fslider\mirai-automatic-slider*" "$PSScriptRoot\plugins\"
+	del -Path ".\plugins\mirai-automatic-slider*"
+	del -Path ".\plugins\mirai-login-solver-selenium*"
+	copy -Path ".\fslider\mirai-automatic-slider*" ".\plugins\"
 	& "$JAVA" -jar mcl.jar
 }
 elseif (($args[0] -eq "--autoslider") -or ($args[0] -eq "-a")) 
 {
-	del -Path "$PSScriptRoot\plugins\mirai-automatic-slider*"
-	del -Path "$PSScriptRoot\plugins\mirai-login-solver-selenium*"
-	copy -Path "$PSScriptRoot\slider\mirai-login-solver-selenium*" "$PSScriptRoot\plugins\"
+	del -Path ".\plugins\mirai-automatic-slider*"
+	del -Path ".\plugins\mirai-login-solver-selenium*"
+	copy -Path ".\slider\mirai-login-solver-selenium*" ".\plugins\"
 	& "$JAVA" -jar mcl.jar
 }
 elseif (($args[0] -eq "--slider") -or ($args[0] -eq "-s")) 
 {
-	del -Path "$PSScriptRoot\plugins\mirai-automatic-slider*"
-	del -Path "$PSScriptRoot\plugins\mirai-login-solver-selenium*"
+	del -Path ".\plugins\mirai-automatic-slider*"
+	del -Path ".\plugins\mirai-login-solver-selenium*"
 	& "$JAVA" "-Dmirai.slider.captcha.supported" "-jar" "mcl.jar"
 }
 else
 {
-	del -Path "$PSScriptRoot\plugins\mirai-automatic-slider*"
-	del -Path "$PSScriptRoot\plugins\mirai-login-solver-selenium*"
+	del -Path ".\plugins\mirai-automatic-slider*"
+	del -Path ".\plugins\mirai-login-solver-selenium*"
 	& "$JAVA" -jar mcl.jar
 }
 

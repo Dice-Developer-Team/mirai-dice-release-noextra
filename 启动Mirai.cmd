@@ -28,5 +28,5 @@ if errorlevel 1 (
         )
     )
 )
-!POWERSHELL_EXEC! -NoLogo -NoProfile -ExecutionPolicy Bypass .\main.ps1
+!POWERSHELL_EXEC! -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\main.ps1
 pause
