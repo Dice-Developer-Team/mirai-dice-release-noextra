@@ -24,7 +24,7 @@
     {
       "id": "org.itxtech:mirai-native",
       "channel": "beta",
-      "version": "2.0.4-cp",
+      "version": "2.0.5-cp",
       "type": "plugins"
     },
     {
