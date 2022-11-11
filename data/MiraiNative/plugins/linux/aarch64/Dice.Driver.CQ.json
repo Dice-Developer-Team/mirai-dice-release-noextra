@@ -2,8 +2,8 @@
     "ret": 1,
     "apiver": 9,
     "name": "DiceDriver",
-    "version": "0.4.1",
-    "version_id": 8,
+    "version": "0.5.0",
+    "version_id": 9,
     "author": "w4123溯洄 & Shiki",
     "description": "使用Dice驱动器在酷Q上运行Dice!",
   "event": [
